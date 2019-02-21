@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>Тест</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<header><h1>Тестирование</h1></header>
+	<main>
+		<form>
+			<fieldset>
+				<legend>Вопрос 1</legend>
+				<span class="question">Чему будет равна переменная 'c': <div class="code"><code>var a = 3;<br>var b = 0;<br>var c = a / b;</code></div></span>
+				<input type="radio" name="q1" value="0"><label>0</label>
+				<input type="radio" name="q1" value="Infinity"><label>Infinity</label>
+				<input type="radio" name="q1" value="NaN"><label>NaN</label>
+				<input type="radio" name="q1" value="Null"><label>Null</label>
+			</fieldset>
+			<fieldset>
+				<legend>Вопрос 2.</legend>
+				<span class="question">Какие типы данных из перечисленных есть в JS?</span>
+				<input type="checkbox" name="ans1" value="string"><label for="ans1">строки</label>
+				<input type="checkbox" name="ans2" value="number"><label for="ans2">числа</label>
+				<input type="checkbox" name="ans3" value="object"><label for="ans3">обьекты</label>
+				<input type="checkbox" name="ans4" value="char"><label for="ans4">символы</label>
+			</fieldset>
+			<fieldset>
+				<legend>Вопрос 3</legend>
+				<span class="question">Как называется технология обращения к серверу без перезагрузки страницы?</span>
+				<label for="text">Введите ответ:</label>
+				<input type="text" name="text" id="textAns">
+			</fieldset>
+			<fieldset>
+				<legend>Вопрос 4</legend>
+				<span class="question">Какое число выведет эта строка?<div class="code"><code>alert( 5.2 + 1.3 ^ 0 );</code></div></span>
+				<label for="number">Введите число(целое или десятичное):</label>
+				<input type="text" name="number" id="number">
+			</fieldset>
+			<fieldset>
+				<legend>Вопрос 5</legend>
+				<span class="question">Поставьте в соответствие:</span>
+				<div class="question5">
+					<div class="subq">
+						<span class="left">1. Фреймворк JavaScript</span>
+						<span class="right">
+							<select name="framework">
+								<option>Yii</option>
+								<option>React</option>
+								<option>Laravel</option>
+								<option>jQuery</option>
+							</select>
+						</span>
+					</div>
+
+					<div class="subq">
+						<span class="left">2. Создатель языка JavaScript</span>
+						<span class="right">
+							<select name="developer">
+								<option>Бьёрн Страуструп</option>
+								<option>Линус Торвальдс</option>
+								<option>Брендан Эйх</option>
+								<option>Юкихиро Мацумото</option>
+							</select>
+						</span>
+					</div>
+				</div>
+			</fieldset>
+
+			<div class="buttons">
+				<input type="button" name="handle" value="Проверить" onclick="handler()">
+			</div>
+		</form>
+
+		<div>
+			<p id="fullCorrectAnswer"></p>
+			<p id="score"></p>
+		</div>
+	</main>
+
+	<script type="text/javascript">
+		function handler() {
+			var fullCorrectAnswer = 0; //полностью правильно ответил на вопрос
+			var score = 0;
+			var question;
+
+			//проверка ответа на первый вопрос
+			question = document.querySelectorAll('input[type="radio"]');
+			for (var i = 0; i < question.length; i++) {
+				if (question[i].value == "Infinity" && question[i].checked) {
+					score++;
+					fullCorrectAnswer++;
+				}
+			}
+
+			//проверка ответа на второй вопрос
+			question = document.querySelectorAll('input[type="checkbox"]');
+			var q2Score = 0;
+			for (var i = 0; i < question.length; i++) {
+				if (question[i].value != "char") {
+					if (question[i].checked) {
+						q2Score++;
+					}
+				} else {
+					if (question[i].checked) {
+						q2Score = 0;
+						break;
+					}
+				}
+			}
+			if (q2Score == 3) {
+				fullCorrectAnswer++;
+			}
+			score += q2Score;
+
+			//проверка ответа на третий вопрос
+			question = document.getElementById('textAns');
+			if (question.value.toLowerCase() == "ajax" || question.value.toLowerCase() == "asynchronous javascript and xml") {
+				score++;
+				fullCorrectAnswer++;
+			}
+
+			//проверка ответа на четвертый вопрос
+			question = document.getElementById('number');
+			if ((+question.value) == 6) {
+				score++;
+				fullCorrectAnswer++;
+			}
+
+			//проверка ответа на пятый вопрос
+			question = document.getElementsByTagName('option');
+			var q5Score = 0;
+			for (var i = 0; i < question.length; i++) {
+				if (question[i].value == "React" && question[i].selected) {
+					q5Score++;
+				}
+
+				if (question[i].value == "Брендан Эйх" && question[i].selected) {
+					q5Score++;
+				}
+			}
+			if (q5Score == 2) {
+				fullCorrectAnswer++;
+			}
+			score += q5Score;
+
+			var sField = document.getElementById("score");
+			var fcaField = document.getElementById("fullCorrectAnswer");
+			sField.innerHTML = "Полностью правильных ответов на вопрос: " + fullCorrectAnswer.toString() + " 0 из 5";
+			fcaField.innerHTML = "Набранно баллов: " + score.toString() + " из 8";
+		}
+	</script>
+</body>
+</html>
